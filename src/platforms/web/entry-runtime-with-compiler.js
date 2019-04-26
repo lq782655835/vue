@@ -22,6 +22,7 @@ Vue.prototype.$mount = function (
   el = el && query(el)
 
   /* istanbul ignore if */
+  // Vue 不能挂载在 body、html 这样的根节点上
   if (el === document.body || el === document.documentElement) {
     process.env.NODE_ENV !== 'production' && warn(
       `Do not mount Vue to <html> or <body> - mount to normal elements instead.`
@@ -32,6 +33,7 @@ Vue.prototype.$mount = function (
   const options = this.$options
   // resolve template/el and convert to render function
   if (!options.render) {
+    // 如果没有定义 render 方法，则会把 el 或者 template 字符串转换成 render 方法。
     let template = options.template
     if (template) {
       if (typeof template === 'string') {
@@ -62,13 +64,14 @@ Vue.prototype.$mount = function (
         mark('compile')
       }
 
+      // 编译模板
       const { render, staticRenderFns } = compileToFunctions(template, {
         shouldDecodeNewlines,
         shouldDecodeNewlinesForHref,
         delimiters: options.delimiters,
         comments: options.comments
       }, this)
-      options.render = render
+      options.render = render // 最终都是绑定render属性，render必须是返回VNode，这就涉及到虚拟DOM了
       options.staticRenderFns = staticRenderFns
 
       /* istanbul ignore if */
