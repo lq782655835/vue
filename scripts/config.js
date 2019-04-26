@@ -172,6 +172,7 @@ function genConfig (name) {
   const opts = builds[name]
   const config = {
     input: opts.entry,
+    sourceMap: true,
     external: opts.external,
     plugins: [
       replace({
@@ -187,7 +188,8 @@ function genConfig (name) {
       file: opts.dest,
       format: opts.format,
       banner: opts.banner,
-      name: opts.moduleName || 'Vue'
+      name: opts.moduleName || 'Vue',
+      sourceMap: true
     }
   }
 
