@@ -11,7 +11,7 @@ let pending = false
 function flushCallbacks () {
   pending = false
   const copies = callbacks.slice(0)
-  callbacks.length = 0
+  callbacks.length = 0 // 清空callback集合，方便下次tick
   for (let i = 0; i < copies.length; i++) {
     copies[i]()
   }

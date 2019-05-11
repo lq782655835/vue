@@ -48,7 +48,7 @@ export function initLifecycle (vm: Component) {
 }
 
 export function lifecycleMixin (Vue: Class<Component>) {
-  // 更新DOM？？？
+  // diff VNode，同时更新DOM
   Vue.prototype._update = function (vnode: VNode, hydrating?: boolean) {
     const vm: Component = this
     const prevEl = vm.$el
@@ -63,7 +63,7 @@ export function lifecycleMixin (Vue: Class<Component>) {
       vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */)
     } else {
       // updates
-      vm.$el = vm.__patch__(prevVnode, vnode)
+      vm.$el = vm.__patch__(prevVnode, vnode) // diff算法以及同步更新dom都是在__patch__方法中
     }
     activeInstance = prevActiveInstance
     // update __vue__ reference
